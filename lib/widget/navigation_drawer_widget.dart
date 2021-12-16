@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:escriva_everyday/page/favourites_page.dart';
 import 'package:escriva_everyday/page/people_page.dart';
-import 'package:escriva_everyday/page/user_page.dart';
+import 'package:escriva_everyday/page/quote_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);

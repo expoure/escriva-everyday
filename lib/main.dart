@@ -1,6 +1,6 @@
+import 'package:escriva_everyday/page/quote_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:escriva_everyday/widget/button_widget.dart';
 import 'package:escriva_everyday/widget/navigation_drawer_widget.dart';
 
 Future main() async {
@@ -39,11 +39,6 @@ class _MainPageState extends State<MainPage> {
           title: Text(MyApp.title),
           backgroundColor: Color.fromRGBO(10, 30, 80, 1),
         ),
-        body: Builder(
-          builder: (context) => Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 32),
-          ),
-        ),
+        body: QuotePage()
       );
 }
