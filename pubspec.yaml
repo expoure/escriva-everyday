@@ -7,7 +7,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.0.1 
+  sqflite: ^2.0.1
   path_provider: ^2.0.8
   cupertino_icons: ^1.0.2
 
@@ -19,3 +19,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/escriva.db
+  fonts:
+    - family: Baskerville
+      fonts:
+        - asset: assets/fonts/LibreBaskerville-Bold.ttf
+        - asset: assets/fonts/LibreBaskerville-Italic.ttf
+        - asset: assets/fonts/LibreBaskerville-Regular.ttf

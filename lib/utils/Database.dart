@@ -5,7 +5,6 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
 
-
 class DataBaseHelper {
   DataBaseHelper._();
 
@@ -26,8 +25,7 @@ class DataBaseHelper {
     io.Directory applicationDirectory =
         await getApplicationDocumentsDirectory();
 
-    String dbPathEnglish =
-        path.join(applicationDirectory.path, "escriva.db");
+    String dbPathEnglish = path.join(applicationDirectory.path, "escriva.db");
 
     bool dbExistsEnglish = await io.File(dbPathEnglish).exists();
 
@@ -46,17 +44,13 @@ class DataBaseHelper {
     return db;
   }
 
-  Future<void> getRandomQuote() async {
+  Future<Quote> getRandomQuote() async {
     final db = await this.database;
     List<Map> quotes = [];
 
     await db.transaction((txn) async {
-      quotes = await txn.query(
-        "quotes",
-        limit: 1
-      );
+      quotes = await txn.query("quotes", orderBy: 'RANDOM()', limit: 1);
     });
-    print(quotes.first);
-    // return Quote.fromJson(quotes.first as Map<String, dynamic>);
+    return Quote.fromJson(quotes.first as Map<String, dynamic>);
   }
 }
