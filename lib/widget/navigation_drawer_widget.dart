@@ -1,7 +1,8 @@
+import 'package:escriva_everyday/page/about_page.dart';
+import 'package:escriva_everyday/page/config_page.dart';
 import 'package:flutter/material.dart';
 import 'package:escriva_everyday/page/favourites_page.dart';
-import 'package:escriva_everyday/page/people_page.dart';
-import 'package:escriva_everyday/page/quote_page.dart';
+import 'package:escriva_everyday/page/caritas_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
@@ -42,10 +43,11 @@ class NavigationDrawerWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 460),
                   Divider(color: Colors.white70),
-                  Text(
-                    'Ad maiorem Dei gloriam',
-                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)
-                  ),
+                  Text('Ad maiorem Dei gloriam',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -54,45 +56,6 @@ class NavigationDrawerWidget extends StatelessWidget {
       ),
     );
   }
-
-  Widget buildHeader({
-    required String urlImage,
-    required String name,
-    required String email,
-    required VoidCallback onClicked,
-  }) =>
-      InkWell(
-        onTap: onClicked,
-        child: Container(
-          padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
-          child: Row(
-            children: [
-              CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    email,
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                ],
-              ),
-              Spacer(),
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: Color.fromRGBO(30, 60, 168, 1),
-                child: Icon(Icons.add_comment_outlined, color: Colors.white),
-              )
-            ],
-          ),
-        ),
-      );
 
   Widget buildMenuItem({
     required String text,
@@ -116,12 +79,22 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PeoplePage(),
+          builder: (context) => CaritasPage(),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => FavouritesPage(),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ConfigPage(),
+        ));
+        break;
+      case 3:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => AboutPage(),
         ));
         break;
     }

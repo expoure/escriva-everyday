@@ -1,6 +1,7 @@
 import 'package:escriva_everyday/models/Quote.dart';
 import 'package:escriva_everyday/utils/Database.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 class QuotePage extends StatefulWidget {
   @override
@@ -28,39 +29,63 @@ class _QuotePageState extends State<QuotePage> {
     return quote;
   }
 
+  void _shareContent() {
+    String shareQuote =
+        '"${this.quote.quote.trimRight()}" \n\n (São Josemaría Escrivá, ${this.quote.bookName}, ${this.quote.quoteNumber})';
+    Share.share(shareQuote);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SizedBox(height: 16),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: new Scaffold(
+          body: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(this.quote.bookName,
-                  style: TextStyle(fontFamily: 'Baskerville', fontSize: 16),
-                  textAlign: TextAlign.end),
-              SizedBox(height: 4),
-              Text(
-                this.quote.chapterName,
-                style: TextStyle(fontFamily: 'Baskerville', fontSize: 16),
+              SizedBox(height: 16),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(this.quote.bookName,
+                      style: TextStyle(
+                          fontFamily: 'Baskerville',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.end),
+                  SizedBox(height: 4),
+                  Text(
+                    this.quote.chapterName,
+                    style: TextStyle(
+                        fontFamily: 'Baskerville',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    this.quote.quoteNumber,
+                    style: TextStyle(
+                        fontFamily: 'Baskerville',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(height: 24),
+                ],
               ),
-              SizedBox(height: 4),
-              Text(
-                this.quote.quoteNumber,
-                style: TextStyle(fontFamily: 'Baskerville', fontSize: 16),
-              ),
-              SizedBox(height: 24),
+              Text(this.quote.quote,
+                  style: TextStyle(fontFamily: 'Baskerville', fontSize: 17),
+                  textAlign: TextAlign.justify),
             ],
           ),
-          Text(
-            this.quote.quote,
-            style: TextStyle(fontFamily: 'Baskerville', fontSize: 17),
-          ),
-        ],
-      ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Color.fromRGBO(10, 30, 80, 1),
+            child: Icon(
+              Icons.share,
+              color: Colors.white,
+            ),
+            onPressed: () => this._shareContent(),
+          )),
     );
   }
 }

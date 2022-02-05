@@ -22,6 +22,15 @@ class MyApp extends StatelessWidget {
         title: title,
         theme: ThemeData(primarySwatch: Colors.blue),
         home: MainPage(),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          /* dark theme settings */
+        ),
+        themeMode: ThemeMode.light,
+        /* ThemeMode.system to follow system theme, 
+         ThemeMode.light for light theme, 
+         ThemeMode.dark for dark theme
+      */
       );
 }
 
@@ -33,12 +42,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        drawer: NavigationDrawerWidget(),
-        // endDrawer: NavigationDrawerWidget(),
-        appBar: AppBar(
-          title: Text(MyApp.title),
-          backgroundColor: Color.fromRGBO(10, 30, 80, 1),
-        ),
-        body: QuotePage()
-      );
+      drawer: NavigationDrawerWidget(),
+      // endDrawer: NavigationDrawerWidget(),
+      appBar: AppBar(
+        title: Text(MyApp.title),
+        backgroundColor: Color.fromRGBO(10, 30, 80, 1),
+      ),
+      body: QuotePage());
 }
