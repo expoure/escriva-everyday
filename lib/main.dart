@@ -22,15 +22,15 @@ class MyApp extends StatelessWidget {
         title: title,
         theme: ThemeData(primarySwatch: Colors.blue),
         home: MainPage(),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          /* dark theme settings */
-        ),
-        themeMode: ThemeMode.light,
-        /* ThemeMode.system to follow system theme, 
-         ThemeMode.light for light theme, 
-         ThemeMode.dark for dark theme
-      */
+        //   darkTheme: ThemeData(
+        //     brightness: Brightness.dark,
+        //     /* dark theme settings */
+        //   ),
+        //   themeMode: ThemeMode.light,
+        //   /* ThemeMode.system to follow system theme,
+        //    ThemeMode.light for light theme,
+        //    ThemeMode.dark for dark theme
+        // */
       );
 }
 

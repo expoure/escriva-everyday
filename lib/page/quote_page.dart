@@ -21,7 +21,11 @@ class _QuotePageState extends State<QuotePage> {
   @override
   void initState() {
     super.initState();
-    getQuote().then((value) => this.quote = value);
+    getQuote().then((value) => {
+          setState(() {
+            this.quote = value;
+          })
+        });
   }
 
   Future getQuote() async {
