@@ -39,57 +39,92 @@ class _QuotePageState extends State<QuotePage> {
     Share.share(shareQuote);
   }
 
+  void _bookmarkQuote(value) async {
+    var quote = await DataBaseHelper.db.setBookmarkQuote(this.quote.id, value);
+    setState(() {
+      this.quote = quote;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: new Scaffold(
-          body: Column(
+    return new Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SizedBox(height: 16),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(this.quote.bookName,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 12.0, 20.0, 0.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(this.quote.bookName,
+                        style: TextStyle(
+                            fontFamily: 'Baskerville',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.end),
+                    SizedBox(height: 4),
+                    Text(
+                      this.quote.chapterName,
                       style: TextStyle(
                           fontFamily: 'Baskerville',
                           fontSize: 18,
                           fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.end),
-                  SizedBox(height: 4),
-                  Text(
-                    this.quote.chapterName,
-                    style: TextStyle(
-                        fontFamily: 'Baskerville',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    this.quote.quoteNumber,
-                    style: TextStyle(
-                        fontFamily: 'Baskerville',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: 24),
-                ],
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      this.quote.quoteNumber,
+                      style: TextStyle(
+                          fontFamily: 'Baskerville',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 24),
+                  ],
+                ),
               ),
-              Text(this.quote.quote,
-                  style: TextStyle(fontFamily: 'Baskerville', fontSize: 17),
-                  textAlign: TextAlign.justify),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+                child: Text(this.quote.quote,
+                    style: TextStyle(fontFamily: 'Baskerville', fontSize: 17),
+                    textAlign: TextAlign.justify),
+              ),
+              SizedBox(height: 48),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Color.fromRGBO(10, 30, 80, 1),
-            child: Icon(
-              Icons.share,
-              color: Colors.white,
+        ),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              heroTag: "share",
+              backgroundColor: Color.fromRGBO(10, 30, 80, 1),
+              child: Icon(
+                Icons.share,
+                color: Colors.white,
+              ),
+              onPressed: () => this._shareContent(),
             ),
-            onPressed: () => this._shareContent(),
-          )),
-    );
+            SizedBox(width: 8),
+            FloatingActionButton(
+              heroTag: "bookmark",
+              backgroundColor: Colors.red[900],
+              child: Icon(
+                this.quote.bookmarked == 0
+                    ? Icons.favorite_border
+                    : Icons.favorite,
+                color: Colors.white,
+              ),
+              onPressed: () => {
+                if (this.quote.bookmarked == 0)
+                  {this._bookmarkQuote(1)}
+                else
+                  {this._bookmarkQuote(0)}
+              },
+            ),
+          ],
+        ));
   }
 }

@@ -49,7 +49,34 @@ class DataBaseHelper {
     List<Map> quotes = [];
 
     await db.transaction((txn) async {
-      quotes = await txn.query("quotes", orderBy: 'RANDOM()', limit: 1);
+      // quotes = await txn.query("quotes", orderBy: 'RANDOM()', limit: 1);
+      quotes = await txn.query('quotes', where: 'length(quote) > 1450');
+    });
+    return Quote.fromJson(quotes.first as Map<String, dynamic>);
+  }
+
+  Future<List<Quote>> getBookmarkedQuotes() async {
+    final db = await this.database;
+    List<Map> quotes = [];
+
+    await db.transaction((txn) async {
+      quotes =
+          await txn.query('quotes', where: 'bookmarked = ?', whereArgs: [1]);
+    });
+
+    return quotes
+        .map((quote) => Quote.fromJson(quote as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<Quote> setBookmarkQuote(id, value) async {
+    final db = await this.database;
+    List<Map> quotes = [];
+
+    await db.transaction((txn) async {
+      await txn.rawUpdate(
+          'UPDATE quotes set bookmarked = ? where id = ?', [value, id]);
+      quotes = await txn.query('quotes', where: 'id = ?', whereArgs: [id]);
     });
     return Quote.fromJson(quotes.first as Map<String, dynamic>);
   }
