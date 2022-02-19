@@ -1,5 +1,7 @@
 import 'package:escriva_everyday/models/Quote.dart';
+import 'package:escriva_everyday/page/favourites_page_detailed.dart';
 import 'package:escriva_everyday/utils/Database.dart';
+import 'package:escriva_everyday/widget/navigation_drawer_widget.dart';
 import 'package:flutter/material.dart';
 
 class FavouritesPage extends StatefulWidget {
@@ -43,18 +45,38 @@ class _FavouritesPageState extends State<FavouritesPage> {
 
   _quoteList(BuildContext context, int index) {
     return GestureDetector(
-        child: Card(
-            child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  children: <Widget>[
-                    Column(
-                      children: [Text(this.quotes[index].bookName)],
-                    ),
-                    Column(
-                      children: [Text(this.quotes[index].chapterName)],
-                    )
-                  ],
-                ))));
+      child: Card(
+          child: Column(
+        children: [
+          ListTile(
+            title: Text('"${this.quotes[index].quote.substring(0, 40)} ..."',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                )),
+            subtitle: Text(
+                '${this.quotes[index].bookName}, ${this.quotes[index].chapterName}, ${this.quotes[index].quoteNumber}',
+                style: TextStyle(
+                    fontFamily: 'Baskerville',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800),
+                textAlign: TextAlign.start),
+            onTap: () => showFavouriteQuoteDetail(quote: this.quotes[index]),
+          ),
+        ],
+      )),
+    );
+  }
+
+  void showFavouriteQuoteDetail({required Quote quote}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Scaffold(
+                appBar: AppBar(
+                  title: Text('Detalhe'),
+                  backgroundColor: Color.fromRGBO(10, 30, 80, 1),
+                ),
+                body: FavouritesPageDetailed(quote: quote))));
   }
 }

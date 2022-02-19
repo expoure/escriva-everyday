@@ -49,8 +49,7 @@ class DataBaseHelper {
     List<Map> quotes = [];
 
     await db.transaction((txn) async {
-      // quotes = await txn.query("quotes", orderBy: 'RANDOM()', limit: 1);
-      quotes = await txn.query('quotes', where: 'length(quote) > 1450');
+      quotes = await txn.query("quotes", orderBy: 'RANDOM()', limit: 1);
     });
     return Quote.fromJson(quotes.first as Map<String, dynamic>);
   }
