@@ -29,7 +29,7 @@ class _QuotePageState extends State<QuotePage> {
   }
 
   Future getQuote() async {
-    var quote = await DataBaseHelper.db.getRandomQuote();
+    var quote = await DataBaseHelper.db.getQuoteOfTheDay();
     return quote;
   }
 

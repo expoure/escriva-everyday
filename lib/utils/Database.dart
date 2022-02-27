@@ -44,12 +44,62 @@ class DataBaseHelper {
     return db;
   }
 
+  Future<Quote> getQuoteOfTheDay() async {
+    final db = await this.database;
+    List<Map> quotes = [];
+
+    await verifyIfAllQuotesAreRead(db);
+
+    String todayFormmatedDate = getTodayFormmatedDate();
+
+    quotes = await getTodayQuoteIfExist(db, quotes, todayFormmatedDate);
+
+    if (quotes.length == 0) {
+      quotes = await getRandomQuoteAndSetAsRead(db, quotes, todayFormmatedDate);
+      return Quote.fromJson(quotes.first as Map<String, dynamic>);
+    } else {
+      return Quote.fromJson(quotes.first as Map<String, dynamic>);
+    }
+  }
+
+  Future<List<Map<dynamic, dynamic>>> getRandomQuoteAndSetAsRead(Database db,
+      List<Map<dynamic, dynamic>> quotes, String todayFormmatedDate) async {
+    await db.transaction((txn) async {
+      quotes = await txn.query("quotes",
+          orderBy: 'RANDOM()', limit: 1, where: 'read_at is null');
+      await txn.rawUpdate('UPDATE quotes set read_at = ? where id = ?',
+          [todayFormmatedDate, quotes.first["id"]]);
+    });
+    return quotes;
+  }
+
+  Future<List<Map<dynamic, dynamic>>> getTodayQuoteIfExist(Database db,
+      List<Map<dynamic, dynamic>> quotes, String todayFormmatedDate) async {
+    await db.transaction((txn) async {
+      quotes = await txn.query("quotes",
+          orderBy: 'RANDOM()',
+          limit: 1,
+          where: 'read_at = ?',
+          whereArgs: [todayFormmatedDate]);
+    });
+    return quotes;
+  }
+
+  String getTodayFormmatedDate() {
+    var date = DateTime.now();
+    var dateFormmated =
+        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day}'
+            .trim();
+    return dateFormmated;
+  }
+
   Future<Quote> getRandomQuote() async {
     final db = await this.database;
     List<Map> quotes = [];
 
     await db.transaction((txn) async {
-      quotes = await txn.query("quotes", orderBy: 'RANDOM()', limit: 1);
+      quotes = await txn.query("quotes",
+          orderBy: 'RANDOM()', limit: 1, where: 'read_at is null');
     });
     return Quote.fromJson(quotes.first as Map<String, dynamic>);
   }
@@ -78,5 +128,19 @@ class DataBaseHelper {
       quotes = await txn.query('quotes', where: 'id = ?', whereArgs: [id]);
     });
     return Quote.fromJson(quotes.first as Map<String, dynamic>);
+  }
+
+  Future verifyIfAllQuotesAreRead(Database db) async {
+    var nullQuotes;
+    await db.transaction((txn) async {
+      nullQuotes = await txn.rawQuery(
+          'SELECT count(*) as count FROM quotes where read_at is null');
+    });
+
+    if (nullQuotes[0]['count'] == 0) {
+      await db.transaction((txn) async {
+        await txn.rawUpdate('UPDATE quotes set read_at = null');
+      });
+    }
   }
 }

@@ -30,7 +30,8 @@ class Quote {
         quoteNumber: json["quote_number"] as String,
         quote: json["quote"] as String,
         bookmarked: json["bookmarked"] as int,
-        readAt: json["read_at"] != null ? new DateTime(json["read_at"]) : null,
+        readAt:
+            json["read_at"] != null ? DateTime.parse(json["read_at"]) : null,
       );
 
   Map<String, dynamic> toJson() => {

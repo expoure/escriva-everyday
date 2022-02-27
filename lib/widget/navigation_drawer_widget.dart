@@ -1,4 +1,3 @@
-import 'package:escriva_everyday/page/about_page.dart';
 import 'package:escriva_everyday/page/config_page.dart';
 import 'package:flutter/material.dart';
 import 'package:escriva_everyday/page/favourites_page.dart';
@@ -31,11 +30,6 @@ class NavigationDrawerWidget extends StatelessWidget {
                     onClicked: () => selectedItem(context, 2),
                   ),
                   const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Sobre',
-                    icon: Icons.info_outline,
-                    onClicked: () => selectedItem(context, 3),
-                  ),
                   buildMenuItem(
                     text: 'Deus Caritas Est',
                     icon: Icons.favorite_border_rounded,
@@ -90,11 +84,6 @@ class NavigationDrawerWidget extends StatelessWidget {
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ConfigPage(),
-        ));
-        break;
-      case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => AboutPage(),
         ));
         break;
     }

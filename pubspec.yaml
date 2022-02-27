@@ -20,6 +20,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/escriva.db
+    - assets/escriva_pic.png
   fonts:
     - family: Baskerville
       fonts:

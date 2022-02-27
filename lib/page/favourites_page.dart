@@ -48,25 +48,41 @@ class _FavouritesPageState extends State<FavouritesPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: Text('Favoritos'),
-        backgroundColor: Color.fromRGBO(10, 30, 80, 1),
-        actions: [],
-      ),
-      body: Column(
-        children: [
-          buildSearch(),
-          Expanded(
-              child: ListView.builder(
-            padding: EdgeInsets.all(10),
-            itemCount: this.quotes.length,
-            itemBuilder: (context, index) {
-              print(this.quotes.length);
-              return this._quoteList(context, index);
-            },
-          )),
-        ],
-      ));
+        appBar: AppBar(
+          title: Text('Favoritos'),
+          backgroundColor: Color.fromRGBO(10, 30, 80, 1),
+          actions: [],
+        ),
+        body: this.allQuotes.length > 0
+            ? Column(
+                children: [
+                  buildSearch(),
+                  Expanded(
+                      child: ListView.builder(
+                    padding: EdgeInsets.all(10),
+                    itemCount: this.quotes.length,
+                    itemBuilder: (context, index) {
+                      return this._quoteList(context, index);
+                    },
+                  )),
+                ],
+              )
+            : Column(
+                children: [
+                  Image.asset('assets/escriva_pic.png'),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    child: Text(
+                        'Cumpre o pequeno dever de cada momento; faz o que deves e está no que fazes.',
+                        style: TextStyle(
+                            fontFamily: 'Baskerville',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.justify),
+                  )
+                ],
+              ),
+      );
 
   Widget buildSearch() =>
       SearchWidget(text: query, hintText: 'Pesquisar', onChanged: searchBook);
@@ -77,7 +93,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
           child: Column(
         children: [
           ListTile(
-            title: Text('"${this.quotes[index].quote.substring(0, 40)} ..."',
+            title: Text(
+                '"${this.quotes[index].quote.substring(0, this.quotes[index].quote.characters.take(40).length).trimRight()}..."',
                 style: TextStyle(
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
