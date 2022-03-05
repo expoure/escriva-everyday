@@ -1,4 +1,5 @@
 import 'package:escriva_everyday/models/Quote.dart';
+import 'package:escriva_everyday/models/Setting.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
@@ -44,6 +45,44 @@ class DataBaseHelper {
     return db;
   }
 
+  Future<Setting> getConfiguration() async {
+    final db = await this.database;
+    List<Map> settings = [];
+
+    await db.transaction((txn) async {
+      settings = await txn.query("settings", limit: 1);
+    });
+
+    return Setting.fromJson(settings.first as Map<String, dynamic>);
+  }
+
+  Future<void> updateNotificationTime(time) async {
+    final db = await this.database;
+    String timeFormmated = timeOfDayToString(time);
+    await db.transaction((txn) async {
+      await txn.rawUpdate(
+          'UPDATE settings set notifications = ?', ['$timeFormmated:00']);
+    });
+  }
+
+  String timeOfDayToString(time) {
+    var timeFormmated = time.toString();
+    const start = "(";
+    const end = ")";
+    final startIndex = timeFormmated.indexOf(start);
+    final endIndex = timeFormmated.indexOf(end, startIndex + start.length);
+    timeFormmated =
+        '${timeFormmated.substring(startIndex + start.length, endIndex)}';
+    return timeFormmated;
+  }
+
+  Future<void> disableNotificationTime() async {
+    final db = await this.database;
+    await db.transaction((txn) async {
+      await txn.rawUpdate('UPDATE settings set notifications = null');
+    });
+  }
+
   Future<Quote> getQuoteOfTheDay() async {
     final db = await this.database;
     List<Map> quotes = [];
@@ -56,10 +95,9 @@ class DataBaseHelper {
 
     if (quotes.length == 0) {
       quotes = await getRandomQuoteAndSetAsRead(db, quotes, todayFormmatedDate);
-      return Quote.fromJson(quotes.first as Map<String, dynamic>);
-    } else {
-      return Quote.fromJson(quotes.first as Map<String, dynamic>);
     }
+
+    return Quote.fromJson(quotes.first as Map<String, dynamic>);
   }
 
   Future<List<Map<dynamic, dynamic>>> getRandomQuoteAndSetAsRead(Database db,
@@ -77,10 +115,7 @@ class DataBaseHelper {
       List<Map<dynamic, dynamic>> quotes, String todayFormmatedDate) async {
     await db.transaction((txn) async {
       quotes = await txn.query("quotes",
-          orderBy: 'RANDOM()',
-          limit: 1,
-          where: 'read_at = ?',
-          whereArgs: [todayFormmatedDate]);
+          limit: 1, where: 'read_at = ?', whereArgs: [todayFormmatedDate]);
     });
     return quotes;
   }
@@ -88,7 +123,7 @@ class DataBaseHelper {
   String getTodayFormmatedDate() {
     var date = DateTime.now();
     var dateFormmated =
-        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day}'
+        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}'
             .trim();
     return dateFormmated;
   }

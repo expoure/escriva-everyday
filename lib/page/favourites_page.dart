@@ -39,7 +39,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
           quoteLower.contains(query.toLowerCase()) ||
           bookLower.contains(query.toLowerCase());
     }).toList();
-    print(query);
     setState(() {
       this.query = query;
       this.quotes = quotes;

@@ -11,6 +11,7 @@ dependencies:
   path_provider: ^2.0.8
   cupertino_icons: ^1.0.2
   share_plus: ^3.0.4
+  in_app_notification: any
 
 dev_dependencies:
   flutter_test:
@@ -21,6 +22,7 @@ flutter:
   assets:
     - assets/escriva.db
     - assets/escriva_pic.png
+    - assets/escriva_pic_profile_.png
   fonts:
     - family: Baskerville
       fonts:

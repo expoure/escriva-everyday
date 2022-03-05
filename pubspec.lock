@@ -86,6 +86,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  in_app_notification:
+    dependency: "direct main"
+    description:
+      name: in_app_notification
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   js:
     dependency: transitive
     description:
