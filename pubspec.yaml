@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   share_plus: ^3.0.4
   in_app_notification: any
+  url_launcher: any
 
 dev_dependencies:
   flutter_test:

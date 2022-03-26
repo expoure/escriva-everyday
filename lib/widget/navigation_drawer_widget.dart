@@ -23,19 +23,19 @@ class NavigationDrawerWidget extends StatelessWidget {
                     icon: Icons.bookmark_border,
                     onClicked: () => selectedItem(context, 1),
                   ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Configurações',
-                    icon: Icons.settings_outlined,
-                    onClicked: () => selectedItem(context, 2),
-                  ),
-                  const SizedBox(height: 16),
+                  // const SizedBox(height: 16),
+                  // buildMenuItem(
+                  //   text: 'Configurações',
+                  //   icon: Icons.settings_outlined,
+                  //   onClicked: () => selectedItem(context, 2),
+                  // ),
+                  const SizedBox(height: 8),
                   buildMenuItem(
                     text: 'Deus Caritas Est',
                     icon: Icons.favorite_border_rounded,
                     onClicked: () => selectedItem(context, 0),
                   ),
-                  const SizedBox(height: 460),
+                  const SizedBox(height: 590),
                   Divider(color: Colors.white70),
                   Text('Ad maiorem Dei gloriam',
                       style: TextStyle(
